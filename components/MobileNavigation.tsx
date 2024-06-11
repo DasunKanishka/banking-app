@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/sheet';
 import { sidebarLinks } from '@/constants/index';
 import { cn } from '@/lib/utils';
+import Footer from './Footer';
 
 const MobileNavigation = ({ user }: MobileNavProps) => {
     const pathname = usePathname();
@@ -101,7 +102,8 @@ const MobileNavigation = ({ user }: MobileNavProps) => {
                                 User
                             </nav>
                         </SheetClose>
-                        Footer
+
+                        <Footer user={user} />
                     </div>
                 </SheetContent>
             </Sheet>

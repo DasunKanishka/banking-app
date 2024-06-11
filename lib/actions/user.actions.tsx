@@ -45,6 +45,18 @@ export const signIn = async ({ email, password }: signInProps) => {
             password
         );
 
+        const session = await account.createEmailPasswordSession(
+            email,
+            password
+        );
+
+        cookies().set('appwrite-session', session.secret, {
+            path: '/',
+            httpOnly: true,
+            sameSite: 'strict',
+            secure: true,
+        });
+
         return parseStringify(response);
     } catch (error) {
         console.error('Error: ', error);
@@ -60,6 +72,21 @@ export const getLoggedInUser = async () => {
         return parseStringify(loggedInUser);
     } catch (error) {
         console.error('Error: ', error);
+
+        return null;
+    }
+};
+
+export const loggedOutUser = async () => {
+    try {
+        const { account } = await createSessionClient();
+
+        cookies().delete('appwrite-session');
+
+        await account.deleteSession('current');
+    } catch (error) {
+        console.error('Error:', error);
+
         return null;
     }
 };
