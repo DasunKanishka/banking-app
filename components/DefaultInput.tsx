@@ -32,6 +32,7 @@ const DefaultInput = ({ control, name, label, placeholder }: DefaultInput) => {
                         <FormControl>
                             <Input
                                 placeholder={placeholder}
+                                id={name}
                                 className="input-class"
                                 type={name === 'password' ? 'password' : 'text'}
                                 {...field}

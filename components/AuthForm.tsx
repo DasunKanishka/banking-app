@@ -14,8 +14,8 @@ import { Form } from '@/components/ui/form';
 import { authFormSchema } from '@/lib/utils';
 import DefaultInput from './DefaultInput';
 import { Loader2 } from 'lucide-react';
-import SignUp from '@/app/(auth)/sign-up/page';
 import { useRouter } from 'next/navigation';
+import { signUp, signIn } from '@/lib/actions/user.actions';
 
 const AuthForm = ({ type }: { type: string }) => {
     const router = useRouter();
@@ -39,19 +39,20 @@ const AuthForm = ({ type }: { type: string }) => {
 
         try {
             if (type === 'sign-up') {
-                // const newUser = await signUp(data);
-                // setUser(newUser);
+                const newUser = await signUp(data);
+                setUser(newUser);
             }
 
             if (type === 'sign-in') {
-                // const response = await signIn({
-                //     email: data.email,
-                //     password: data.password,
-                // });
-                // response && router.push('/');
+                const response = await signIn({
+                    email: data.email,
+                    password: data.password,
+                });
+
+                response && router.push('/');
             }
         } catch (error) {
-            console.log(error);
+            console.error('Error: ', error);
         } finally {
             setIsLoading(false);
         }
@@ -123,7 +124,7 @@ const AuthForm = ({ type }: { type: string }) => {
                                     <div className="flex gap-4">
                                         <DefaultInput
                                             control={form.control}
-                                            name="address"
+                                            name="address1"
                                             label="Address"
                                             placeholder="Enter your address"
                                         />
